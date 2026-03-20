@@ -1951,6 +1951,10 @@ nav {
     border: none; /* ← beddel hna */
     border-radius: 25px;
     padding: 0.5rem;
+    text-decoration: none;
+    border-bottom: none;
+    display: none;
+    
 }
 
 /* Hide nav lang switcher on desktop — only for mobile hamburger */
