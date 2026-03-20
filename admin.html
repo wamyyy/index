@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel · EL WAMY Ayoub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <div>
+                <h2>Control Panel</h2>
+                <p>EL WAMY Ayoub</p>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item messages-btn" data-section="messages" id="messagesNavItem">
+                <i class="fas fa-envelope"></i> Messages
+                <span class="msg-count-badge" id="msgBadge" style="display:none;">0</span>
+            </a>
+            <a href="#" class="nav-item active" data-section="projects">
+                <i class="fas fa-folder-open"></i> Projects
+            </a>
+            <a href="#" class="nav-item" data-section="articles">
+                <i class="fas fa-newspaper"></i> Articles
+            </a>
+            <a href="#" class="nav-item" data-section="videos">
+                <i class="fas fa-video"></i> Video URLs
+            </a>
+            <a href="#" class="nav-item" data-section="photo">
+                <i class="fas fa-image"></i> Profile Photo
+            </a>
+            <a href="#" class="nav-item" data-section="journey">
+                <i class="fas fa-road"></i> My Journey
+            </a>
+            <a href="index.html" class="nav-item view-site-btn">
+                <i class="fas fa-eye"></i> View Site
+            </a>
+
+            <a href="#" class="nav-item logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="topbar-title" id="sectionTitle">Featured Projects</h1>
+            <div class="topbar-actions">
+                <button class="btn-primary" id="addProjectBtn" onclick="openProjectModal()">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+                <button class="btn-primary" id="addArticleBtn" onclick="openArticleModal()" style="display: none;">
+                    <i class="fas fa-plus"></i> Add Article
+                </button>
+                <button class="btn-primary" id="addVideoBtn" onclick="openVideoModal()" style="display: none;">
+                    <i class="fas fa-plus"></i> Add Video
+                </button>
+                <button class="btn-primary" id="addJourneyBtn" onclick="openJourneyModal()" style="display: none;">
+                    <i class="fas fa-plus"></i> Add Entry
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION: Projects -->
+        <section class="section" id="section-projects">
+            <div id="projectsGrid" class="projects-admin-grid">
+                <div class="loading-spinner"><i class="fas fa-circle-notch fa-spin"></i> Loading projects...</div>
+            </div>
+        </section>
+
+        <!-- SECTION: Articles -->
+        <section class="section hidden" id="section-articles">
+            <div id="articlesGrid" class="projects-admin-grid">
+                <div class="loading-spinner"><i class="fas fa-circle-notch fa-spin"></i> Loading articles...</div>
+            </div>
+        </section>
+
+        <!-- SECTION: Videos -->
+        <section class="section hidden" id="section-videos">
+            <div id="videosGrid" class="projects-admin-grid">
+                <div class="loading-spinner"><i class="fas fa-circle-notch fa-spin"></i> Loading videos...</div>
+            </div>
+        </section>
+
+        <!-- SECTION: My Journey -->
+        <section class="section hidden" id="section-journey">
+            <div id="journeyGrid" class="projects-admin-grid">
+                <div class="loading-spinner"><i class="fas fa-circle-notch fa-spin"></i> Loading timeline...</div>
+            </div>
+        </section>
+
+        <!-- SECTION: Messages -->
+        <section class="section hidden" id="section-messages">
+            <div style="max-width:860px;">
+                <div
+                    style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.8rem;">
+                    <div style="font-size:0.9rem;color:var(--text-secondary);" id="msgSummary">Loading...</div>
+                    <button class="btn-danger" onclick="deleteAllMessages()"
+                        style="padding:0.5rem 1.2rem;border-radius:8px;border:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#ef4444;cursor:pointer;font-size:0.82rem;font-weight:600;transition:all 0.2s;"><i
+                            class="fas fa-trash"></i> Clear All</button>
+                </div>
+                <div id="messagesContainer">
+                    <div class="loading-spinner"><i class="fas fa-circle-notch fa-spin"></i> Loading messages...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Profile Photo -->
+        <section class="section hidden" id="section-photo">
+            <div class="card photo-section">
+                <h2><i class="fas fa-image"></i> Update Profile Photo</h2>
+                <p class="card-subtitle">This photo appears on your portfolio's About section.</p>
+                <div class="current-photo-wrap">
+                    <img src="" alt="Current Photo" id="currentPhoto" class="current-photo">
+                </div>
+                <form id="photoForm" enctype="multipart/form-data">
+                    <div class="file-drop-zone" id="fileDrop">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop a photo here, or click to browse</p>
+                        <span>JPG, PNG, WEBP · Max 10MB</span>
+                        <input type="file" name="photo" id="photoInput" accept="image/*" hidden>
+                    </div>
+                    <div id="photoPreviewWrap" class="photo-preview-wrap hidden">
+                        <img id="photoPreview" class="photo-preview-img" alt="Preview">
+                        <button type="button" class="btn-ghost" onclick="clearPhotoPreview()"><i
+                                class="fas fa-times"></i> Clear</button>
+                    </div>
+                    <button type="submit" class="btn-primary" id="uploadPhotoBtn">
+                        <i class="fas fa-upload"></i> Upload Photo
+                    </button>
+                </form>
+                <div id="photoMsg" class="success-msg hidden"><i class="fas fa-check-circle"></i> Photo updated
+                    successfully!</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalHeading">Add New Project</h2>
+                <button class="modal-close" onclick="closeProjectModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="projectForm" enctype="multipart/form-data">
+                <input type="hidden" id="projectId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Project Title *</label>
+                        <input type="text" id="projTitle" placeholder="My Awesome Project" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="projCategory">
+                            <option value="web">🌐 Web</option>
+                            <option value="mobile">📱 Mobile</option>
+                            <option value="3d">🧊 3D</option>
+                            <option value="design">🎨 Design</option>
+                            <option value="ai">🤖 AI / ML</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="projDesc" placeholder="Short description of the project..." rows="3"
+                        required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Live Link</label>
+                        <input type="url" id="projLink" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>GitHub Link</label>
+                        <input type="url" id="projGithub" placeholder="https://github.com/...">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags / Technologies <span class="hint">(comma-separated)</span></label>
+                    <input type="text" id="projTags" placeholder="React, Node.js, MongoDB">
+                </div>
+
+                <div class="form-group">
+                    <label>Features <span class="hint">(one per line)</span></label>
+                    <textarea id="projFeatures" placeholder="Responsive Design&#10;Dark Mode&#10;API Integration"
+                        rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Card Color / Gradient</label>
+                    <div class="color-options">
+                        <div class="color-opt selected" data-val="linear-gradient(135deg, #1a7b8e 0%, #2c3e50 100%)"
+                            style="background:linear-gradient(135deg,#1a7b8e,#2c3e50)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #a33568 0%, #2c3e50 100%)"
+                            style="background:linear-gradient(135deg,#a33568,#2c3e50)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #356ba3 0%, #1a2332 100%)"
+                            style="background:linear-gradient(135deg,#356ba3,#1a2332)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #7b351a 0%, #2c3e50 100%)"
+                            style="background:linear-gradient(135deg,#7b351a,#2c3e50)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #1a3a7b 0%, #0d1b2a 100%)"
+                            style="background:linear-gradient(135deg,#1a3a7b,#0d1b2a)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #2d7b1a 0%, #0d2a13 100%)"
+                            style="background:linear-gradient(135deg,#2d7b1a,#0d2a13)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #7b1a6e 0%, #1a0d2a 100%)"
+                            style="background:linear-gradient(135deg,#7b1a6e,#1a0d2a)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #7b7b1a 0%, #2a2a0d 100%)"
+                            style="background:linear-gradient(135deg,#7b7b1a,#2a2a0d)"></div>
+                    </div>
+                    <input type="hidden" id="projColor" value="linear-gradient(135deg, #1a7b8e 0%, #2c3e50 100%)">
+                </div>
+
+                <div class="form-group">
+                    <label>Project Image <span class="hint">(optional – replaces icon)</span></label>
+                    <div class="file-drop-zone compact" id="imgDrop">
+                        <i class="fas fa-image"></i>
+                        <p>Click to upload project screenshot</p>
+                        <input type="file" name="image" id="projImgInput" accept="image/*" hidden>
+                    </div>
+                    <img id="projImgPreview" class="photo-preview-img hidden" alt="Preview">
+                </div>
+
+                <div id="formError" class="error-msg hidden"></div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" onclick="closeProjectModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveProjectBtn">
+                        <i class="fas fa-save"></i> Save Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="adminToast" class="admin-toast"></div>
+
+    <!-- Article Modal -->
+    <div class="modal-overlay" id="articleModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="articleModalHeading">Add New Article</h2>
+                <button class="modal-close" onclick="closeArticleModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="articleForm">
+                <input type="hidden" id="articleId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Article Title *</label>
+                        <input type="text" id="artTitle" placeholder="My Awesome Article" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <input type="text" id="artCategory" placeholder="e.g. Tutorial" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Excerpt / Description *</label>
+                    <textarea id="artExcerpt" placeholder="Short description of the article..." rows="5"
+                        required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Read More Link *</label>
+                        <input type="url" id="artLink" placeholder="https://..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="text" id="artDate" placeholder="Feb 10, 2025" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Icon Class (FontAwesome)</label>
+                    <input type="text" id="artIcon" placeholder="fas fa-file-code" value="fas fa-file-code">
+                </div>
+
+                <div class="form-group">
+                    <label>Card Background Gradient</label>
+                    <div class="color-options" id="artColorOptions">
+                        <div class="color-opt selected" data-val="linear-gradient(135deg, #1a7b8e, #7ba8a8)"
+                            style="background:linear-gradient(135deg,#1a7b8e,#7ba8a8)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #6b35a3, #1a7b8e)"
+                            style="background:linear-gradient(135deg,#6b35a3,#1a7b8e)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #a33568, #2c3e50)"
+                            style="background:linear-gradient(135deg,#a33568,#2c3e50)"></div>
+                        <div class="color-opt" data-val="linear-gradient(135deg, #356ba3, #1a2332)"
+                            style="background:linear-gradient(135deg,#356ba3,#1a2332)"></div>
+                    </div>
+                    <input type="hidden" id="artColor" value="linear-gradient(135deg, #1a7b8e, #7ba8a8)">
+                </div>
+
+                <div class="form-actions" style="margin-top: 2rem;">
+                    <button type="button" class="btn-ghost" onclick="closeArticleModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="videoModalHeading">Add New Video</h2>
+                <button class="modal-close" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="videoForm" style="padding: 1.8rem 2rem;">
+                <input type="hidden" id="videoId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Video Title *</label>
+                        <input type="text" id="vidTitle" placeholder="My Awesome Video Presentation" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category / Platform *</label>
+                        <select id="vidCategory">
+                            <option value="youtube">YouTube</option>
+                            <option value="mp4">MP4 Direct Link</option>
+                            <option value="vimeo">Vimeo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Video URL *</label>
+                    <input type="url" id="vidUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+                    <span
+                        style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; display: block;">Paste
+                        the complete URL of the video (e.g. YouTube watch link, or .mp4 file link)</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Thumbnail Image (Optional)</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="url" id="vidImage" placeholder="https://.../thumbnail.jpg" style="flex: 1;"
+                            autocomplete="off">
+                        <button type="button" onclick="document.getElementById('vidImageFile').click()"
+                            style="padding: 0.8rem 1rem; flex-shrink: 0; background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-primary); border-radius: 8px; cursor: pointer; transition: background 0.2s;">
+                            <i class="fas fa-upload"></i> Upload
+                        </button>
+                    </div>
+                    <input type="file" id="vidImageFile" accept="image/*" style="display: none;">
+                    <span
+                        style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; display: block;">Paste
+                        an image URL or upload a custom cover image (Max 2MB). Leave empty to use default
+                        appearance.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Description (Optional)</label>
+                    <textarea id="vidDesc" placeholder="Brief context about this video..." rows="3"></textarea>
+                </div>
+
+                <div class="form-actions" style="margin-top: 2rem;">
+                    <button type="button" class="btn-ghost" onclick="closeVideoModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Video</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Journey Modal -->
+    <div class="modal-overlay" id="journeyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="journeyModalHeading">Add Journey Entry</h2>
+                <button class="modal-close" onclick="closeJourneyModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="journeyForm" style="padding: 1.8rem 2rem;">
+                <input type="hidden" id="journeyId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date / Period *</label>
+                        <input type="text" id="journeyDate" placeholder="2024 - Present" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Icon (FontAwesome class)</label>
+                        <input type="text" id="journeyIcon" placeholder="fas fa-briefcase" value="fas fa-briefcase">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Job Title / Role *</label>
+                        <input type="text" id="journeyTitle" placeholder="Senior Full-Stack Developer" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company / Institution</label>
+                        <input type="text" id="journeyCompany" placeholder="Tech Company Name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="journeyDesc" placeholder="Describe your role, responsibilities, and achievements..."
+                        rows="4" required></textarea>
+                </div>
+
+                <div class="form-actions" style="margin-top: 2rem;">
+                    <button type="button" class="btn-ghost" onclick="closeJourneyModal()">Cancel</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="admin.js"></script>
+</body>
+
+</html>

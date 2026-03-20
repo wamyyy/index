@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login · EL WAMY Ayoub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7b2fff;
+            --dark: #040d1a;
+            --glass-border: rgba(0, 212, 255, 0.15);
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+        }
+        [data-theme="light"] {
+            --primary: #0ea5e9;
+            --secondary: #6366f1;
+            --dark: #f8fafc;
+            --glass-border: rgba(14, 165, 233, 0.2);
+            --text: #1e293b;
+            --text-secondary: #64748b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: var(--dark);
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .bg-glow {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+        }
+        .bg-glow::before {
+            content: ''; position: absolute;
+            top: -20%; left: -10%; width: 60%; height: 70%;
+            background: radial-gradient(ellipse, rgba(0, 212, 255, 0.12), transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        .bg-glow::after {
+            content: ''; position: absolute;
+            bottom: -20%; right: -10%; width: 50%; height: 60%;
+            background: radial-gradient(ellipse, rgba(123, 47, 255, 0.15), transparent 70%);
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+        canvas { position: fixed; inset: 0; z-index: 0; }
+        .login-wrapper {
+            position: relative; z-index: 10;
+            width: 100%; max-width: 460px; padding: 1rem;
+        }
+        .login-card {
+            background: rgba(6, 15, 30, 0.85);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 3rem 2.5rem;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.08), 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(0, 212, 255, 0.1);
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        [data-theme="light"] .login-card {
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 40px rgba(14, 165, 233, 0.05), 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+        [data-theme="light"] .bg-glow { display: none; }
+        [data-theme="light"] .form-group input { background: rgba(14, 165, 233, 0.03); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .login-logo { text-align: center; margin-bottom: 2rem; }
+        .logo-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin: 0 auto 1rem;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .login-logo h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .login-logo p { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.4rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block; font-size: 0.85rem; font-weight: 600;
+            color: var(--text-secondary); margin-bottom: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .input-wrap { position: relative; }
+        .input-wrap i {
+            position: absolute; left: 1rem; top: 50%;
+            transform: translateY(-50%); color: var(--text-secondary); font-size: 0.9rem;
+            transition: color 0.3s; pointer-events: none;
+        }
+        .form-group input {
+            width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: var(--text); font-size: 1rem; font-family: 'Inter', sans-serif;
+            outline: none; transition: all 0.3s;
+        }
+        .form-group input:focus {
+            border-color: var(--primary); background: rgba(0, 212, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        .input-wrap:focus-within i { color: var(--primary); }
+        .show-pass-btn {
+            position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: var(--text-secondary);
+            cursor: pointer; font-size: 0.9rem; padding: 0; transition: color 0.3s;
+        }
+        .show-pass-btn:hover { color: var(--primary); }
+        .login-btn {
+            width: 100%; padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none; border-radius: 12px;
+            color: var(--dark); font-size: 1rem; font-weight: 700;
+            font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0, 212, 255, 0.35); }
+        .login-btn:active { transform: translateY(0); }
+        .login-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .spinner {
+            display: none; width: 20px; height: 20px;
+            border: 2px solid rgba(0,0,0,0.3); border-top-color: var(--dark);
+            border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.9rem;
+            margin-bottom: 1rem; display: none; align-items: center; gap: 0.5rem;
+        }
+        .error-msg.show { display: flex; }
+        .back-link { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); }
+        .back-link a { color: var(--primary); text-decoration: none; font-weight: 600; transition: opacity 0.3s; }
+        .back-link a:hover { opacity: 0.7; }
+        .secured-badge {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; text-align: center; margin-top: 1.5rem;
+            font-size: 0.78rem; color: var(--text-secondary); opacity: 0.6;
+        }
+        .secured-badge i { color: #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <canvas id="loginCanvas"></canvas>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="google-login-wrap" style="margin-bottom: 2rem;">
+                <button type="button" class="login-btn google-btn" onclick="loginWithGoogle()" style="background: #fff; color: #1f2937; border: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 0;">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google" style="width: 20px;">
+                    <span>Continue with Google</span>
+                </button>
+                <div style="display: flex; align-items: center; margin: 1.5rem 0; gap: 1rem;">
+                    <hr style="flex: 1; border: 0; border-top: 1px solid var(--glass-border);">
+                    <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Or use credentials</span>
+                    <hr style="flex: 1; border: 0; border-top: 1px solid var(--glass-border);">
+                </div>
+            </div>
+
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label>Username</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Enter your username" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Enter your password" autocomplete="off" required>
+                        <button type="button" class="show-pass-btn" onclick="togglePass()">
+                            <i class="fas fa-eye" id="passEye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="btnText"><i class="fas fa-sign-in-alt" style="margin-right:0.5rem;"></i>Sign In</span>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+            </form>
+
+            <div class="back-link">
+                <a href="index.html"><i class="fas fa-arrow-left" style="margin-right:0.3rem;"></i>Back to Portfolio</a>
+            </div>
+            <div class="secured-badge">
+                <i class="fas fa-shield-halved"></i> Cloud Secured by Supabase
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // ---- import MUST be first in a module ----
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabase = createClient(
+            'https://udxsycnidkhagvsnmvkk.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkeHN5Y25pZGtoYWd2c25tdmtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTgzNDYsImV4cCI6MjA4OTU5NDM0Nn0._Z7s1HxwzXCxEyLRtTOVQyhKWgtip-RJyNiz7gVCzHQ'
+        );
+
+        // Check existing session → redirect to admin if already logged in
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) window.location.href = 'admin.html';
+        }
+        checkSession();
+
+        window.loginWithGoogle = async function() {
+            try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: { redirectTo: window.location.origin + '/admin.html' }
+                });
+                if (error) showError('Google Login failed: ' + error.message);
+            } catch (err) {
+                showError('Google Login failed: ' + err.message);
+            }
+        }
+
+        // ---- Particles (Original design) ----
+        const canvas = document.getElementById('loginCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = Array.from({ length: 60 }, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+            r: Math.random() * 1.5 + 0.5, alpha: Math.random() * 0.5 + 0.1
+        }));
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0,212,255,${p.alpha})`;
+                ctx.fill();
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ---- UI helpers ----
+        window.togglePass = function() {
+            const inp = document.getElementById('password');
+            const eye = document.getElementById('passEye');
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            eye.className = inp.type === 'text' ? 'fas fa-eye-slash' : 'fas fa-eye';
+        }
+
+        window.showError = function(msg) {
+            const box = document.getElementById('errorMsg');
+            const errText = document.getElementById('errorText');
+            if (box && errText) {
+                errText.textContent = msg;
+                box.classList.add('show');
+            }
+        }
+
+        // ---- Classic Login handler (as fallback) ----
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const btn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+
+            if (username === 'ayoubelwamy' && password === 'ayoub101219642006') {
+                sessionStorage.setItem('portfolio_admin_auth', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                showError('Incorrect username or password.');
+            }
+        });
+    </script>
+</body>
+</html>

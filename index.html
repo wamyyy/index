@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="EL WAMY Ayoub — Full-Stack Developer & UI/UX Designer from Taroudant, Morocco. Specializing in React, Node.js, 3D web experiences. Available for freelance projects.">
+    <meta name="keywords" content="EL WAMY Ayoub, web developer, portfolio, UI/UX designer, full-stack developer, Morocco, Taroudant, React, Node.js">
+    <meta name="author" content="EL WAMY Ayoub">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EL WAMY Ayoub · Full-Stack Developer & UI/UX Designer">
+    <meta property="og:description" content="21-year-old full-stack developer & UI/UX designer from Morocco. Building beautiful, functional digital experiences.">
+    <meta property="og:image" content="assets/img/ayoub.jpg">
+    <meta property="og:url" content="https://ayoubelwamy.com">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EL WAMY Ayoub · Portfolio">
+    <meta name="twitter:description" content="Full-Stack Developer & UI/UX Designer from Morocco.">
+    <meta name="twitter:image" content="assets/img/ayoub.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Devicon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme: apply before render to prevent flash -->
+    <script>
+        (function() {
+            const t = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+
+    <title>EL WAMY Ayoub · Full-Stack Developer & UI/UX Designer</title>
+</head>
+<body class="light-mode-transition">
+    <!-- Background Glow -->
+    <div class="bg-glow"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading Portfolio</div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher" id="languageSwitcher">
+        <a href="index.html" class="lang-btn active"><img src="https://flagcdn.com/w20/gb.png" alt="English" style="width:20px; vertical-align:middle; margin-right:4px;"> EN</a>
+        <a href="index_ar.html" class="lang-btn"><img src="https://flagcdn.com/w20/ma.png" alt="Arabic" style="width:20px; vertical-align:middle; margin-right:4px;"> AR</a>
+        <a href="index_fr.html" class="lang-btn"><img src="https://flagcdn.com/w20/fr.png" alt="French" style="width:20px; vertical-align:middle; margin-right:4px;"> FR</a>
+    </div>
+
+
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="login.html" class="logo" title="Admin Panel" style="text-decoration:none;" data-translate="hero_title">EL WAMY Ayoub</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" data-translate="nav_home">Home</a></li>
+                <li><a href="#about" data-translate="nav_about">About</a></li>
+                <li><a href="#timeline" data-translate="nav_experience">Experience</a></li>
+                <li><a href="#skills" data-translate="nav_skills">Skills</a></li>
+                <li><a href="#services" data-translate="nav_services">Services</a></li>
+                <li><a href="#projects" data-translate="nav_projects">Projects</a></li>
+                <li><a href="#blog" data-translate="nav_blog">Blog</a></li>
+                <li><a href="#testimonials" data-translate="nav_testimonials">Testimonials</a></li>
+                <li><a href="#contact" data-translate="nav_contact">Contact</a></li>
+                <li class="nav-lang-switcher">
+                    <div class="language-switcher-nav">
+                        <a href="index.html" class="lang-btn active"><img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:20px;vertical-align:middle;margin-right:5px;">EN</a>
+                        <a href="index_ar.html" class="lang-btn"><img src="https://flagcdn.com/w20/ma.png" alt="AR" style="width:20px;vertical-align:middle;margin-right:5px;">AR</a>
+                        <a href="index_fr.html" class="lang-btn"><img src="https://flagcdn.com/w20/fr.png" alt="FR" style="width:20px;vertical-align:middle;margin-right:5px;">FR</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <!-- Availability Badge Removed -->
+
+            <h1><span class="typewriter" data-translate="hero_title">EL WAMY Ayoub</span></h1>
+            <p data-translate="hero_subtitle">Crafting Digital Experiences with Code &amp; Design</p>
+
+            <!-- Hero Avatar Removed -->
+
+            <div class="cta-buttons">
+                <a href="#projects" class="cta-button primary" data-translate="cta_work">View My Work</a>
+                <a href="#contact" class="cta-button secondary" data-translate="cta_contact">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section fade-in" id="about">
+        <div class="about-container">
+            <div class="profile-section">
+                <div class="profile-image-wrapper">
+                    <div class="profile-image">
+                         <img src="assets/img/ayoub.jpg" alt="EL WAMY Ayoub" class="profile-img" style="object-position: top;">
+                         <div class="glow-effect"></div>
+                     </div>
+                </div>
+                <div class="social-badges">
+                    <span class="badge" data-translate="badge_designer">UI/UX Designer</span>
+                    <span class="badge" data-translate="badge_developer">Developer</span>
+                    <span class="badge" data-translate="badge_3d">3D Artist</span>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2 class="name-title" data-translate="about_name">EL WAMY Ayoub</h2>
+                <p class="tagline" data-translate="about_tagline">Creative Developer &amp; Designer</p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-birthday-cake"></i></span>
+                        <div class="info-content">
+                            <span class="info-label" data-translate="info_age_label">Age</span>
+                            <span class="info-value" data-translate="info_age_value">21 Years Old</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <div class="info-content">
+                            <span class="info-label" data-translate="info_education_label">Education</span>
+                            <span class="info-value" data-translate="info_education_value">Computer Science FPT</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-map-marker-alt"></i></span>
+                        <div class="info-content">
+                            <span class="info-label" data-translate="info_location_label">Location</span>
+                            <span class="info-value" data-translate="info_location_value">Morocco, Taroudant</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-briefcase"></i></span>
+                        <div class="info-content">
+                            <span class="info-label" data-translate="info_experience_label">Experience</span>
+                            <span class="info-value" data-translate="info_experience_value">3+ Years</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bio-text">
+                    <p data-translate="bio_1">Passionate about creating exceptional digital experiences that combine beautiful design with powerful functionality. Specialized in UI/UX design, 3D graphics, and modern web development.</p>
+                    <p data-translate="bio_2">I transform ideas into pixel-perfect interfaces and immersive experiences that users love.</p>
+                </div>
+
+                <a href="cv.pdf" class="download-cv" download data-translate="download_cv">
+                    <i class="fas fa-download"></i>
+                    Download CV
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Introduction Section -->
+    <style>
+        .hero-box {
+            background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px rgba(0,0,0,0.3); margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+        .hero-vid-player {
+            background: #1e293b; border-radius: 16px; min-height: 450px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
+        }
+        .hero-play {
+            width: 80px; height: 80px; border-radius: 50%; background: #ffffff; color: #1e293b; border: none; font-size: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; z-index: 5; box-shadow: 0 10px 30px rgba(0,0,0,0.3); outline: none;
+        }
+        .hero-play:hover {
+            transform: scale(1.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        #videoThumbBg {
+            position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; opacity: 0.6; pointer-events: none; transition: opacity 0.3s;
+        }
+        .hero-vid-player:hover #videoThumbBg {
+            opacity: 0.4;
+        }
+    </style>
+    <section class="video-section fade-in" id="video" style="position: relative; overflow: hidden; text-align: center;">
+        <div class="container" style="position: relative; z-index: 10;">
+            <h2 class="section-title" data-translate="video_title">Meet Me</h2>
+            <p class="section-subtitle" data-translate="video_subtitle">A quick introduction to who I am and what I do</p>
+            
+            <div class="hero-box">
+                <div class="hero-vid-player" id="videoPlayerContainer">
+                    <button class="hero-play" id="playVideoBtn">
+                        <i class="fas fa-play" style="margin-left: 5px;"></i>
+                    </button>
+                    <!-- Background image injected here via JS -->
+                    <div id="videoThumbBg"></div>
+                    <div id="videoPlayer" style="position: absolute; inset: 0; display: none; width: 100%; height: 100%; z-index: 10;"></div>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;" data-translate="video_description">
+                    Watch this short video to learn more about my journey, skills, and passion for development.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section fade-in" id="timeline">
+        <h2 class="section-title" data-translate="timeline_title">My Journey</h2>
+        <p class="section-subtitle" data-translate="timeline_subtitle">Professional experience and milestones</p>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date" data-translate="timeline_date1">2024 - Present</div>
+                    <h3 class="timeline-title" data-translate="timeline_title1">Senior Full-Stack Developer</h3>
+                    <p class="timeline-company" data-translate="timeline_company1">Tech Innovations Inc.</p>
+                    <p class="timeline-description" data-translate="timeline_desc1">Leading development of cutting-edge web applications using React, Node.js, and cloud technologies.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date" data-translate="timeline_date2">2022 - 2024</div>
+                    <h3 class="timeline-title" data-translate="timeline_title2">Frontend Developer</h3>
+                    <p class="timeline-company" data-translate="timeline_company2">Creative Digital Agency</p>
+                    <p class="timeline-description" data-translate="timeline_desc2">Developed responsive and interactive user interfaces for major brands. Improved performance by 40%.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date" data-translate="timeline_date3">2020 - 2022</div>
+                    <h3 class="timeline-title" data-translate="timeline_title3">UI/UX Designer &amp; Developer</h3>
+                    <p class="timeline-company" data-translate="timeline_company3">Startup Labs</p>
+                    <p class="timeline-description" data-translate="timeline_desc3">Designed and developed user-centered interfaces for mobile and web applications.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date" data-translate="timeline_date4">2018 - 2020</div>
+                    <h3 class="timeline-title" data-translate="timeline_title4">Computer Science Degree</h3>
+                    <p class="timeline-company" data-translate="timeline_company4">University of Technology</p>
+                    <p class="timeline-description" data-translate="timeline_desc4">Graduated with honors. Focused on software engineering, algorithms, and web technologies.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof-section fade-in" id="clients">
+        <h2 class="section-title" data-translate="clients_title">I can code with</h2>
+        <p class="section-subtitle" data-translate="clients_subtitle">Technologies I use to build amazing products</p>
+        <div class="brands-grid">
+            <div class="brand-logo" title="JavaScript"><i class="devicon-javascript-plain"></i></div>
+            <div class="brand-logo" title="HTML5"><i class="devicon-html5-plain"></i></div>
+            <div class="brand-logo" title="CSS3"><i class="devicon-css3-plain"></i></div>
+            <div class="brand-logo" title="React"><i class="devicon-react-original"></i></div>
+            <div class="brand-logo" title="Node.js"><i class="devicon-nodejs-plain"></i></div>
+            <div class="brand-logo" title="Python"><i class="devicon-python-plain"></i></div>
+            <div class="brand-logo" title="Java"><i class="devicon-java-plain"></i></div>
+            <div class="brand-logo" title="TypeScript"><i class="devicon-typescript-plain"></i></div>
+            <div class="brand-logo" title="C"><i class="devicon-c-plain"></i></div>
+            <div class="brand-logo" title="C++"><i class="devicon-cplusplus-plain"></i></div>
+        </div>
+        <!-- Social Proof Counters Removed -->
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section fade-in" id="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label" data-translate="stats_projects">Projects Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="3">0</div>
+                <div class="stat-label" data-translate="stats_experience">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="7">0</div>
+                <div class="stat-label" data-translate="stats_clients">Happy Clients</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="1">0</div>
+                <div class="stat-label" data-translate="stats_awards">Awards Won</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section fade-in" id="skills">
+        <h2 class="section-title" data-translate="skills_title">My Skills</h2>
+        <p class="section-subtitle" data-translate="skills_subtitle">Technologies and tools I work with</p>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <div class="skill-header">
+                    <span class="skill-name" data-translate="skill_uiux">UI/UX Design</span>
+                    <span class="skill-percentage">95%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-progress="95"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <span class="skill-name" data-translate="skill_react">React &amp; Next.js</span>
+                    <span class="skill-percentage">90%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-progress="90"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <span class="skill-name" data-translate="skill_three">Three.js &amp; 3D Graphics</span>
+                    <span class="skill-percentage">85%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-progress="85"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <span class="skill-name" data-translate="skill_node">Node.js &amp; Backend</span>
+                    <span class="skill-percentage">80%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-progress="80"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <span class="skill-name" data-translate="skill_python">Python &amp; AI/ML</span>
+                    <span class="skill-percentage">75%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-progress="75"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section fade-in" id="services">
+        <h2 class="section-title" data-translate="services_title">My Services</h2>
+        <p class="section-subtitle" data-translate="services_subtitle">What I can do for you</p>
+        <div class="services-grid">
+            <div class="service-card scale-in">
+                <div class="service-icon"><i class="fas fa-palette"></i></div>
+                <h3 class="service-title" data-translate="service_web_title">Web Design</h3>
+                <p class="service-description" data-translate="service_web_desc">Modern, responsive, and user-friendly website designs that convert visitors into customers.</p>
+
+                <ul class="service-features">
+                    <li data-translate="service_web_feat1">Responsive Design</li>
+                    <li data-translate="service_web_feat2">Modern UI/UX</li>
+                    <li data-translate="service_web_feat3">Fast Loading</li>
+                    <li data-translate="service_web_feat4">SEO Optimized</li>
+                </ul>
+                <a href="#contact" class="service-btn" data-translate="service_btn">Get Started</a>
+            </div>
+
+            <div class="service-card scale-in">
+                <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3 class="service-title" data-translate="service_dev_title">Web Development</h3>
+                <p class="service-description" data-translate="service_dev_desc">Full-stack web applications with cutting-edge technologies and scalable architecture.</p>
+
+                <ul class="service-features">
+                    <li data-translate="service_dev_feat1">React/Vue Development</li>
+                    <li data-translate="service_dev_feat2">API Integration</li>
+                    <li data-translate="service_dev_feat3">Database Design</li>
+                    <li data-translate="service_dev_feat4">Cloud Deployment</li>
+                </ul>
+                <a href="#contact" class="service-btn" data-translate="service_btn">Get Started</a>
+            </div>
+
+            <div class="service-card scale-in">
+                <div class="service-icon"><i class="fas fa-pencil-ruler"></i></div>
+                <h3 class="service-title" data-translate="service_ui_title">UI/UX Design</h3>
+                <p class="service-description" data-translate="service_ui_desc">Beautiful and intuitive user interfaces that provide exceptional user experience.</p>
+
+                <ul class="service-features">
+                    <li data-translate="service_ui_feat1">User Research</li>
+                    <li data-translate="service_ui_feat2">Wireframing</li>
+                    <li data-translate="service_ui_feat3">Prototyping</li>
+                    <li data-translate="service_ui_feat4">User Testing</li>
+                </ul>
+                <a href="#contact" class="service-btn" data-translate="service_btn">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="achievements-section fade-in" id="achievements">
+        <h2 class="section-title" data-translate="achievements_title">Achievements &amp; Certifications</h2>
+        <p class="section-subtitle" data-translate="achievements_subtitle">Recognition and credentials</p>
+        <div class="achievements-grid">
+            <div class="achievement-badge">
+                <div class="badge-icon"><i class="fas fa-trophy"></i></div>
+                <h4 class="badge-title" data-translate="achievement1_title">Best Web Design</h4>
+                <p class="badge-issuer" data-translate="achievement1_issuer">FPT Awwwards</p>
+            </div>
+            <div class="achievement-badge">
+                <div class="badge-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h4 class="badge-title" data-translate="achievement2_title">Full-Stack Certified</h4>
+                <p class="badge-issuer" data-translate="achievement2_issuer">Meta/Facebook</p>
+            </div>
+            <div class="achievement-badge">
+                <div class="badge-icon"><i class="fas fa-star"></i></div>
+                <h4 class="badge-title" data-translate="achievement3_title">React Expert</h4>
+                <p class="badge-issuer" data-translate="achievement3_issuer">Udemy</p>
+            </div>
+            <div class="achievement-badge">
+                <div class="badge-icon"><i class="fas fa-gem"></i></div>
+                <h4 class="badge-title" data-translate="achievement4_title">UI/UX Master</h4>
+                <p class="badge-issuer" data-translate="achievement4_issuer">Google UX Design</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section fade-in" id="blog">
+        <h2 class="section-title" data-translate="blog_title">Latest Articles</h2>
+        <p class="section-subtitle" data-translate="blog_subtitle">Insights, tutorials, and case studies</p>
+        <div class="blog-grid" id="portfolioBlogGrid">
+            <!-- Articles will be injected here dynamically by script.js -->
+        </div>
+    </section>
+
+
+
+    <!-- Projects Section -->
+    <section class="projects-section fade-in" id="projects">
+        <h2 class="section-title" data-translate="projects_title">Featured Projects</h2>
+        <p class="section-subtitle" data-translate="projects_subtitle">Some of my best work</p>
+
+        <!-- Search Bar -->
+        <div class="project-search-wrap">
+            <div class="project-search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="projectSearch" placeholder="Search projects..." data-translate-placeholder="search_placeholder" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="project-filters">
+            <button class="filter-btn active" data-filter="all" data-translate="filter_all">All</button>
+            <button class="filter-btn" data-filter="web" data-translate="filter_web">Web</button>
+            <button class="filter-btn" data-filter="mobile" data-translate="filter_mobile">Mobile</button>
+            <button class="filter-btn" data-filter="3d" data-translate="filter_3d">3D</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects loaded dynamically from server -->
+            <div class="loading-projects" style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-secondary);"><i class="fas fa-circle-notch fa-spin" style="margin-right:0.5rem;"></i>Loading projects...</div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section fade-in" id="testimonials">
+        <h2 class="section-title" data-translate="testimonials_title">What People Say</h2>
+        <p class="section-subtitle" data-translate="testimonials_subtitle">Testimonials from clients and colleagues</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p class="testimonial-text" data-translate="testimonial1_text">Working with this developer was an absolute pleasure. The attention to detail and creative problem-solving skills are exceptional. Our project was delivered on time and exceeded all expectations!</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fas fa-user-tie"></i></div>
+                    <div class="author-info">
+                        <h4 data-translate="testimonial1_name">Ahmed Bennani</h4>
+                        <p data-translate="testimonial1_title">CEO, TechStart Morocco</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p class="testimonial-text" data-translate="testimonial2_text">Outstanding work! The UI/UX design was modern and intuitive. Our users love the new interface and engagement has increased by 60%. Highly recommended!</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+                    <div class="author-info">
+                        <h4 data-translate="testimonial2_name">Sarah El Amrani</h4>
+                        <p data-translate="testimonial2_title">Product Manager, Digital Solutions</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p class="testimonial-text" data-translate="testimonial3_text">A true professional! The 3D interactive elements added to our website were mind-blowing. Communication was excellent throughout the project and the results speak for themselves.</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fas fa-paint-brush"></i></div>
+                    <div class="author-info">
+                        <h4 data-translate="testimonial3_name">Youssef Alaoui</h4>
+                        <p data-translate="testimonial3_title">Creative Director, Brand Studio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section fade-in" id="contact">
+        <h2 class="section-title" data-translate="contact_title">Get In Touch</h2>
+        <p class="section-subtitle" data-translate="contact_subtitle">Let's create something amazing together</p>
+        <div class="contact-container">
+            <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-group">
+                    <input type="text" id="contactName" name="name" placeholder="Your Name" data-translate-placeholder="contact_name_placeholder" required autocomplete="name">
+                    <span class="field-error" id="nameError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="contactEmail" name="email" placeholder="Your Email" data-translate-placeholder="contact_email_placeholder" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" autocomplete="email">
+                    <span class="field-error" id="emailError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="contactSubject" name="subject" placeholder="Subject" data-translate-placeholder="contact_subject_placeholder" required>
+                    <span class="field-error" id="subjectError"></span>
+                </div>
+                <div class="form-group">
+                    <textarea id="contactMessage" name="message" placeholder="Your Message" data-translate-placeholder="contact_message_placeholder" required minlength="10"></textarea>
+                    <span class="field-error" id="messageError"></span>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn" data-translate="contact_submit">Send Message</button>
+                <div class="form-success" id="formSuccess"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section fade-in" id="newsletter">
+        <div class="newsletter-container">
+            <h2 class="section-title" style="margin-bottom: 1rem;" data-translate="newsletter_title">Stay Updated</h2>
+            <p class="section-subtitle" data-translate="newsletter_subtitle">Subscribe to my newsletter for latest articles, tips, and project updates</p>
+            <form class="newsletter-form" action="https://formspree.io/f/mqakvvoj" method="POST" id="newsletterForm" novalidate>
+                <input type="email" id="newsletterEmail" name="email" class="newsletter-input" placeholder="Enter your email" data-translate-placeholder="newsletter_placeholder" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+                <button type="submit" class="newsletter-btn" data-translate="newsletter_btn">Subscribe</button>
+            </form>
+            <span class="field-error" id="newsletterError" style="display:block;text-align:center;margin-top:0.5rem;"></span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/wamyyy" title="GitHub" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.instagram.com/its_wamy/" title="Instagram" target="_blank" rel="noopener">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/ayoubelwamy/" title="LinkedIn" target="_blank" rel="noopener">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="/cdn-cgi/l/email-protection#690810061c0b0c051e0804105958290e04080005470a0604" title="Email Me" rel="noopener">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        <p>&copy; 2026 <span data-translate="hero_title">EL WAMY Ayoub</span>. <span data-translate="footer_rights">All rights reserved.</span></p>
+        <a href="#home" class="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></a>
+    </footer>
+
+    <!-- AI Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbotWidget">
+        <button class="chatbot-bubble" id="chatbotBubble" aria-label="Open chat assistant">
+            <i class="fas fa-robot chatbot-icon-open"></i>
+            <i class="fas fa-times chatbot-icon-close" style="display:none;"></i>
+            <span class="chat-notif-dot"></span>
+        </button>
+        <div class="chatbot-panel" id="chatbotPanel">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <div class="chatbot-name">Ayoub's Assistant</div>
+                        <div class="chatbot-status"><span class="status-dot"></span> Online</div>
+                    </div>
+                </div>
+                <button class="chatbot-clear" id="chatbotClear" title="Clear chat"><i class="fas fa-trash-alt"></i></button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chat-msg bot">
+                    <div class="msg-bubble">👋 Hi! I'm Ayoub's portfolio assistant. Ask me anything about his skills, services, or availability!</div>
+                </div>
+                <div class="chat-quick-replies">
+                    <button class="quick-reply" data-msg="What are your services?">What are your services?</button>
+                    <button class="quick-reply" data-msg="Are you available?">Are you available?</button>
+                    <button class="quick-reply" data-msg="Show me your projects">Show me projects</button>
+                </div>
+            </div>
+            <div class="chatbot-typing" id="chatbotTyping" style="display:none;">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="chatbot-input-row">
+                <input type="text" id="chatInput" class="chatbot-input" placeholder="Ask me anything..." autocomplete="off">
+                <button class="chatbot-send" id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Quick-View Modal -->
+    <div class="project-modal-overlay" id="projectModal" role="dialog" aria-modal="true" aria-label="Project details">
+        <div class="project-modal-box">
+            <button class="modal-close" id="modalClose" aria-label="Close modal"><i class="fas fa-times"></i></button>
+            <div class="modal-img-wrap">
+                <div class="modal-project-thumb" id="modalThumb"></div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-tags" id="modalTags"></div>
+                <div class="modal-links">
+                    <a href="#" class="modal-btn primary" id="modalLiveBtn" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                    <a href="https://github.com/wamyyy" class="modal-btn secondary" id="modalGithubBtn" target="_blank" rel="noopener">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "EL WAMY Ayoub",
+        "jobTitle": "Full-Stack Developer & UI/UX Designer",
+        "url": "https://ayoubelwamy.com",
+        "image": "assets/img/ayoub.jpg",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Taroudant",
+            "addressCountry": "MA"
+        },
+        "sameAs": [
+            "https://github.com/wamyyy",
+            "https://www.instagram.com/its_wamy/",
+            "https://www.linkedin.com/in/ayoubelwamy/"
+        ]
+    }
+    </script>
+
+    <!-- JavaScript -->
+    <script type="module" src="script.js"></script>
+
+    <!-- Project Links Modal -->
+    <div id="projectLinksModal" class="modal-overlay">
+        <div class="links-modal">
+            <button class="modal-close" onclick="window.closeLinksModal()"><i class="fas fa-times"></i></button>
+            <div class="links-header">
+                <i class="fas fa-rocket glowing-icon"></i>
+                <h2 id="modalProjectTitle">Project Links</h2>
+                <p>Choose your destination</p>
+            </div>
+            <div class="links-grid">
+                <a id="modalLiveLink" href="#" class="choice-card live" onclick="return false;">
+                    <div class="choice-icon"><i class="fas fa-globe"></i></div>
+                    <div class="choice-content">
+                        <h3>Visit Website</h3>
+                        <span>View the live project</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+                <a id="modalGithubLink" href="#" class="choice-card github" onclick="return false;">
+                    <div class="choice-icon"><i class="fab fa-github"></i></div>
+                    <div class="choice-content">
+                        <h3>View Repository</h3>
+                        <span>Explore the source code</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

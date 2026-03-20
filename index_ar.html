@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="أيوب الوامي — مطور ويب كامل المكدس ومصمم واجهات مستخدم من تارودانت، المغرب. متخصص في React و Node.js وتجارب الويب ثلاثية الأبعاد. متاح للمشاريع المستقلة.">
+    <meta name="keywords" content="أيوب الوامي, مطور ويب, محفظة, مصمم واجهات, المغرب, تارودانت, React, Node.js">
+    <meta name="author" content="أيوب الوامي">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="أيوب الوامي · مطور ويب كامل المكدس ومصمم واجهات">
+    <meta property="og:description" content="مطور ويب كامل المكدس ومصمم واجهات مستخدم من المغرب. بناء تجارب رقمية جميلة وعملية.">
+    <meta property="og:image" content="assets/img/ayoub.jpg">
+    <meta property="og:url" content="https://ayoubelwamy.com">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="أيوب الوامي · المحفظة الشخصية">
+    <meta name="twitter:description" content="مطور ويب كامل المكدس ومصمم واجهات مستخدم من المغرب.">
+    <meta name="twitter:image" content="assets/img/ayoub.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Almarai:wght@400;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Devicon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme: apply before render to prevent flash -->
+    <!-- Theme: apply before render to prevent flash -->
+    <script>
+        (function() {
+            const t = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+
+    <title>أيوب الوامي · مطور ويب ومصمم واجهات</title>
+
+    <style>
+        .hero-box {
+            background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px rgba(0,0,0,0.3); margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+        .hero-vid-player {
+            background: #1e293b; border-radius: 16px; min-height: 450px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
+        }
+        .hero-play {
+            width: 80px; height: 80px; border-radius: 50%; background: #ffffff; color: #1e293b; border: none; font-size: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; z-index: 5; box-shadow: 0 10px 30px rgba(0,0,0,0.3); outline: none;
+        }
+        .hero-play:hover {
+            transform: scale(1.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        #videoThumbBg {
+            position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; opacity: 0.6; pointer-events: none; transition: opacity 0.3s;
+        }
+        .hero-vid-player:hover #videoThumbBg {
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="light-mode-transition rtl">
+    <!-- Background Glow -->
+    <div class="bg-glow"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">جاري تحميل المحفظة</div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher" id="languageSwitcher">
+        <a href="index.html" class="lang-btn"><img src="https://flagcdn.com/w20/gb.png" alt="English" style="width:20px; vertical-align:middle; margin-left:4px;"> EN</a>
+        <a href="index_ar.html" class="lang-btn active"><img src="https://flagcdn.com/w20/ma.png" alt="Arabic" style="width:20px; vertical-align:middle; margin-left:4px;"> AR</a>
+        <a href="index_fr.html" class="lang-btn"><img src="https://flagcdn.com/w20/fr.png" alt="French" style="width:20px; vertical-align:middle; margin-left:4px;"> FR</a>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="login.html" class="logo" title="لوحة التحكم" style="text-decoration:none;">أيوب الوامي</a>
+            <button class="hamburger" id="hamburger" aria-label="القائمة">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#about">عني</a></li>
+                <li><a href="#timeline">الخبرة</a></li>
+                <li><a href="#skills">المهارات</a></li>
+                <li><a href="#services">الخدمات</a></li>
+                <li><a href="#projects">المشاريع</a></li>
+                <li><a href="#blog">المدونة</a></li>
+                <li><a href="#testimonials">التوصيات</a></li>
+                <li><a href="#contact">اتصال</a></li>
+                <li class="nav-lang-switcher">
+                    <div class="language-switcher-nav">
+                        <a href="index.html" class="lang-btn"><img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:20px;vertical-align:middle;margin-right:5px;">EN</a>
+                        <a href="index_ar.html" class="lang-btn active"><img src="https://flagcdn.com/w20/ma.png" alt="AR" style="width:20px;vertical-align:middle;margin-right:5px;">AR</a>
+                        <a href="index_fr.html" class="lang-btn"><img src="https://flagcdn.com/w20/fr.png" alt="FR" style="width:20px;vertical-align:middle;margin-right:5px;">FR</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1><span class="typewriter" data-text-ar="أيوب الوامي">أيوب الوامي</span></h1>
+            <p>صنع تجارب رقمية بالكود والتصميم</p>
+
+            <div class="cta-buttons">
+                <a href="#projects" class="cta-button primary">عرض أعمالي</a>
+                <a href="#contact" class="cta-button secondary">تواصل معي</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section fade-in" id="about">
+        <div class="about-container">
+            <div class="profile-section">
+                <div class="profile-image-wrapper">
+                    <div class="profile-image">
+                         <img src="assets/img/ayoub.jpg" alt="أيوب الوامي" class="profile-img" style="object-position: top;">
+                         <div class="glow-effect"></div>
+                     </div>
+                </div>
+                <div class="social-badges">
+                    <span class="badge">مصمم واجهات</span>
+                    <span class="badge">مطور ويب</span>
+                    <span class="badge">فنان ثلاثي الأبعاد</span>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2 class="name-title">أيوب الوامي</h2>
+                <p class="tagline">مطور ومصمم مبدع</p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-birthday-cake"></i></span>
+                        <div class="info-content">
+                            <span class="info-label">العمر</span>
+                            <span class="info-value">٢١ سنة</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <div class="info-content">
+                            <span class="info-label">التعليم</span>
+                            <span class="info-value">علوم الحاسب FPT</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-map-marker-alt"></i></span>
+                        <div class="info-content">
+                            <span class="info-label">الموقع</span>
+                            <span class="info-value">المغرب، تارودانت</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon"><i class="fas fa-briefcase"></i></span>
+                        <div class="info-content">
+                            <span class="info-label">الخبرة</span>
+                            <span class="info-value">٣+ سنوات</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bio-text">
+                    <p>شغوف بإنشاء تجارب رقمية استثنائية تجمع بين التصميم الجميل والوظائف القوية. متخصص في تصميم واجهات المستخدم، الرسوم الثلاثية الأبعاد، وتطوير الويب الحديث.</p>
+                    <p>أحول الأفكار إلى واجهات مثالية وتجارب غامرة يحبها المستخدمون.</p>
+                </div>
+
+                <a href="cv.pdf" class="download-cv" download>
+                    <i class="fas fa-download"></i>
+                    تحميل السيرة الذاتية
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section fade-in" id="video" style="text-align: center;">
+        <div class="container">
+            <h2 class="section-title">تعرف علي</h2>
+            <p class="section-subtitle">مقدمة سريعة عن من أنا وماذا أفعل</p>
+            
+            <div class="hero-box">
+                <div class="hero-vid-player" id="videoPlayerContainer">
+                    <button class="hero-play" id="playVideoBtn">
+                        <i class="fas fa-play" style="margin-left: -5px;"></i>
+                    </button>
+                    <div id="videoThumbBg"></div>
+                    <div id="videoPlayer" style="position: absolute; inset: 0; display: none; width: 100%; height: 100%; z-index: 10;"></div>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+                    شاهد هذا الفيديو القصير لتعرف المزيد عن رحلتي ومهاراتي وشغفي بالتطوير.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section fade-in" id="timeline">
+        <h2 class="section-title">رحلتي المهنية</h2>
+        <p class="section-subtitle">الخبرة المهنية والإنجازات</p>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">٢٠٢٤ - الحاضر</div>
+                    <h3 class="timeline-title">مطور أول كامل المكدس</h3>
+                    <p class="timeline-company">Tech Innovations Inc.</p>
+                    <p class="timeline-description">قيادة تطوير تطبيقات الويب المتقدمة باستخدام React و Node.js وتقنيات السحاب.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">٢٠٢٢ - ٢٠٢٤</div>
+                    <h3 class="timeline-title">مطور واجهات أمامية</h3>
+                    <p class="timeline-company">وكالة كريتيف ديجيتال</p>
+                    <p class="timeline-description">تطوير واجهات مستخدم تفاعلية ومتجاوبة للعلامات التجارية الكبرى. تحسين الأداء بنسبة ٤٠٪.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">٢٠٢٠ - ٢٠٢٢</div>
+                    <h3 class="timeline-title">مصمم ومطور واجهات</h3>
+                    <p class="timeline-company">Startup Labs</p>
+                    <p class="timeline-description">تصميم وتطوير واجهات تركز على المستخدم للتطبيقات المحمولة والويب.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="social-proof-section fade-in" id="clients">
+        <h2 class="section-title">يمكنني البرمجة بـ</h2>
+        <p class="section-subtitle">التقنيات التي أستخدمها لبناء منتجات مذهلة</p>
+        <div class="brands-grid">
+            <div class="brand-logo" title="JavaScript"><i class="devicon-javascript-plain"></i></div>
+            <div class="brand-logo" title="HTML5"><i class="devicon-html5-plain"></i></div>
+            <div class="brand-logo" title="CSS3"><i class="devicon-css3-plain"></i></div>
+            <div class="brand-logo" title="React"><i class="devicon-react-original"></i></div>
+            <div class="brand-logo" title="Node.js"><i class="devicon-nodejs-plain"></i></div>
+            <div class="brand-logo" title="Python"><i class="devicon-python-plain"></i></div>
+            <div class="brand-logo" title="Java"><i class="devicon-java-plain"></i></div>
+            <div class="brand-logo" title="TypeScript"><i class="devicon-typescript-plain"></i></div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section fade-in" id="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">مشاريع مكتملة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="3">0</div>
+                <div class="stat-label">سنوات خبرة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="7">0</div>
+                <div class="stat-label">عملاء سعيدون</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="1">0</div>
+                <div class="stat-label">جوائز</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section fade-in" id="services">
+        <h2 class="section-title">خدماتي</h2>
+        <p class="section-subtitle">ماذا يمكنني أن أفعل لك</p>
+        <div class="services-grid">
+            <div class="service-card scale-in">
+                <div class="service-icon"><i class="fas fa-palette"></i></div>
+                <h3 class="service-title">تصميم الويب</h3>
+                <p class="service-description">تصاميم مواقع حديثة ومتجاوبة وسهلة الاستخدام تحول الزوار إلى عملاء.</p>
+                <ul class="service-features">
+                    <li>تصميم متجاوب</li>
+                    <li>واجهات حديثة UI/UX</li>
+                    <li>تحميل سريع</li>
+                    <li>محسن لمحركات البحث</li>
+                </ul>
+                <a href="#contact" class="service-btn">ابدأ الآن</a>
+            </div>
+
+            <div class="service-card scale-in">
+                <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3 class="service-title">تطوير الويب</h3>
+                <p class="service-description">تطبيقات ويب كاملة المكدس بأحدث التقنيات وهندسة قابلة للتوسع.</p>
+                <ul class="service-features">
+                    <li>تطوير React/Next.js</li>
+                    <li>تكامل واجهات البرمجة API</li>
+                    <li>تصميم قواعد البيانات</li>
+                    <li>نشر سحابي</li>
+                </ul>
+                <a href="#contact" class="service-btn">ابدأ الآن</a>
+            </div>
+
+            <div class="service-card scale-in">
+                <div class="service-icon"><i class="fas fa-pencil-ruler"></i></div>
+                <h3 class="service-title">تصميم الواجهات</h3>
+                <p class="service-description">واجهات مستخدم جميلة وبديهية توفر تجربة مستخدم استثنائية.</p>
+                <ul class="service-features">
+                    <li>أبحاث المستخدم</li>
+                    <li>تخطيط الهياكل Wireframing</li>
+                    <li>نمذجة أولية Prototyping</li>
+                    <li>اختبار المستخدم</li>
+                </ul>
+                <a href="#contact" class="service-btn">ابدأ الآن</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section fade-in" id="contact">
+        <h2 class="section-title">تواصل معي</h2>
+        <p class="section-subtitle">لنخلق شيئًا رائعًا معًا</p>
+        <div class="contact-container">
+            <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-group">
+                    <input type="text" id="contactName" name="name" placeholder="اسمك" required>
+                    <span class="field-error" id="nameError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="contactEmail" name="email" placeholder="بريدك الإلكتروني" required>
+                    <span class="field-error" id="emailError"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="contactSubject" name="subject" placeholder="الموضوع" required>
+                    <span class="field-error" id="subjectError"></span>
+                </div>
+                <div class="form-group">
+                    <textarea id="contactMessage" name="message" placeholder="رسالتك" required minlength="10"></textarea>
+                    <span class="field-error" id="messageError"></span>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">إرسال الرسالة</button>
+                <div class="form-success" id="formSuccess"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/wamyyy" title="GitHub" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/its_wamy/" title="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/ayoubelwamy/" title="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+            <a href="/cdn-cgi/l/email-protection#accdd5c3d9cec9c0dbcdc1d59c9deccbc1cdc5c082cfc3c1" title="Email" rel="noopener"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p>&copy; ٢٠٢٦ أيوب الوامي. جميع الحقوق محفوظة.</p>
+        <a href="#home" class="back-to-top" aria-label="العودة للأعلى"><i class="fas fa-chevron-up"></i></a>
+    </footer>
+
+    <!-- AI Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbotWidget">
+        <button class="chatbot-bubble" id="chatbotBubble" aria-label="افتح مساعد الدردشة">
+            <i class="fas fa-robot chatbot-icon-open"></i>
+            <i class="fas fa-times chatbot-icon-close" style="display:none;"></i>
+        </button>
+        <div class="chatbot-panel" id="chatbotPanel">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <div class="chatbot-name">مساعد أيوب</div>
+                        <div class="chatbot-status"><span class="status-dot"></span> متصل الآن</div>
+                    </div>
+                </div>
+                <button class="chatbot-clear" id="chatbotClear" title="مسح المحادثة"><i class="fas fa-trash-alt"></i></button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chat-msg bot">
+                    <div class="msg-bubble">👋 مرحباً! أنا مساعد أيوب الرقمي. اسألني أي شيء عن مهاراته أو خدماته!</div>
+                </div>
+            </div>
+            <div class="chatbot-typing" id="chatbotTyping" style="display:none;">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="chatbot-input-row">
+                <input type="text" id="chatInput" class="chatbot-input" placeholder="اسألني أي شيء..." autocomplete="off">
+                <button class="chatbot-send" id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module" src="script.js"></script>
+    <script>
+        // Override typewriter for Arabic
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroSpan = document.querySelector('.hero .typewriter');
+            if (heroSpan) {
+                // Ensure it's clear before starting
+                heroSpan.textContent = '';
+                // Wait for the loader to fade out (approx 1.5s total including fade)
+                setTimeout(() => {
+   
+
+    
+
+</body>
+</html>
+
+    <!-- Project Links Modal -->
+    <div id="projectLinksModal" class="modal-overlay">
+        <div class="links-modal">
+            <button class="modal-close" onclick="window.closeLinksModal()"><i class="fas fa-times"></i></button>
+            <div class="links-header">
+                <i class="fas fa-rocket glowing-icon"></i>
+                <h2 id="modalProjectTitle">Project Links</h2>
+                <p>Choose your destination</p>
+            </div>
+            <div class="links-grid">
+                <a id="modalLiveLink" href="#" class="choice-card live" onclick="return false;">
+                    <div class="choice-icon"><i class="fas fa-globe"></i></div>
+                    <div class="choice-content">
+                        <h3>Visit Website</h3>
+                        <span>View the live project</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+                <a id="modalGithubLink" href="#" class="choice-card github" onclick="return false;">
+                    <div class="choice-icon"><i class="fab fa-github"></i></div>
+                    <div class="choice-content">
+                        <h3>View Repository</h3>
+                        <span>Explore the source code</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
