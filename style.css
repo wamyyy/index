@@ -1948,7 +1948,7 @@ nav {
     gap: 0.5rem;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: none; /* ← beddel hna */
     border-radius: 25px;
     padding: 0.5rem;
 }
