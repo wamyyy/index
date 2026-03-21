@@ -369,13 +369,26 @@ nav {
 .typewriter {
     display: inline-block;
     position: relative;
+    overflow: hidden;
+    white-space: nowrap;
     border-right: 3px solid var(--primary);
-    animation: blink-caret 0.75s step-end infinite;
     padding-right: 4px;
+
+    /* typing animation */
+    animation: typing 2s steps(20) 1 forwards,
+               blink-caret 0.75s step-end infinite;
+
+    /* gradient text */
     background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+/* typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
 }
 
 @keyframes blink-caret {
