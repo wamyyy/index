@@ -28,7 +28,7 @@ async function checkAdminAccess() {
 
     // 1. Ila makanch ga3 user dakhil
     if (error || !user) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
         return;
     }
 
@@ -44,7 +44,7 @@ async function checkAdminAccess() {
         console.error("Access Denied: Machi ntaya!");
         await supabase.auth.signOut(); // Kharjo nishan
         sessionStorage.removeItem(AUTH_KEY);
-        window.location.href = 'index.html'; 
+        window.location.href = 'login.html'; 
         return;
     }
 }
@@ -55,7 +55,7 @@ async function verifyAuth() {
     if (sessionStorage.getItem(AUTH_KEY) === 'true') return true;
     const { data: { session } } = await supabase.auth.getSession();
     if (session) return true;
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
     return false;
 }
 
@@ -63,7 +63,7 @@ document.getElementById('logoutBtn').addEventListener('click', async e => {
     e.preventDefault();
     await supabase.auth.signOut();
     sessionStorage.removeItem(AUTH_KEY);
-    window.location.href = 'inddex.html';
+    window.location.href = 'login.html';
 });
 
 
