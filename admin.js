@@ -22,27 +22,35 @@ const AUTH_KEY = 'portfolio_admin_auth';
 // ══════════════════════════════════════════
 // AUTH
 
-// 1. Check l-auth mli kat-hla l-page
+// 1. Check l-auth mli kat-hla l-page (Musa7a7)
 async function checkAdminAccess() {
     const { data: { user }, error } = await supabase.auth.getUser();
 
-    // Ila makanch ga3 dakhil awla l-email machi dialek
-    if (error || !user || user.email !== 'ayoubelwamy10121964@gmail.com') {
-        console.error("Access Denied!");
-        
-        // Kharjo nishan bach maybqa dakhil f session
-        await supabase.auth.signOut();
-        
-        // Sifto l-page dial login
-        window.location.href = 'index.html'; 
+    // 1. Ila makanch ga3 user dakhil
+    if (error || !user) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // 2. Check wach had l-user huwa ntaya (Admin)
+    // Kay-checki email (Google) AWLA username (Login 3adi)
+    const isAdminEmail = user.email === 'ayoubelwamy10121964@gmail.com';
+    
+    // Ghadi n-checkiw l-username f metadata (ila knti m-configuriha f login)
+    // Awla ghir l-email dyal l-user li m-creyi f Supabase
+    const isAdminUser = user.email === 'ayoubelwamy' || user.user_metadata?.username === 'ayoubelwamy';
+
+    if (!isAdminEmail && !isAdminUser) {
+        console.error("Access Denied: Machi ntaya!");
+        await supabase.auth.signOut(); // Kharjo nishan
+        sessionStorage.removeItem(AUTH_KEY);
+        window.location.href = 'login.html'; 
         return;
     }
 }
 
 // 2. Run l-check nishan
 checkAdminAccess();
-
-
 // ══════════════════════════════════════════
 async function verifyAuth() {
     if (sessionStorage.getItem(AUTH_KEY) === 'true') return true;
