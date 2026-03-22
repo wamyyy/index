@@ -588,40 +588,62 @@ document.addEventListener('DOMContentLoaded', async () => {
     const logo = document.querySelector('.logo');
     if (logo) { logo.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })); logo.style.cursor = 'pointer'; }
 
-    // ─── PARTICLE CANVAS ───
+// ─── PARTICLES (OPTIMIZED) ───
+
+function initParticles() {
     const canvas = document.getElementById('particleCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // resize
+    function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        const particles = Array.from({ length: Math.min(60, Math.floor(window.innerWidth / 20)) }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            r: Math.random() * 2 + 1
-        }));
-
-        (function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.x += p.vx; p.y += p.vy;
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(122,168,168,0.4)';
-                ctx.fill();
-            });
-            requestAnimationFrame(animate);
-        })();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
     }
+    resize();
+
+    // أقل particles فالموبايل
+    const count = window.innerWidth < 768 ? 20 : 60;
+
+    const particles = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2 + 1
+    }));
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(122,168,168,0.4)';
+            ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', resize);
+}
+
+// 🚀 lazy load: particles بعد ما الصفحة تظهر
+if ('requestIdleCallback' in window) {
+    requestIdleCallback(initParticles);
+} else {
+    setTimeout(initParticles, 1500);
+}
 
     // ─── CHATBOT ───
     const chatbotBubble   = document.getElementById('chatbotBubble');
