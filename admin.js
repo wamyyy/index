@@ -21,6 +21,28 @@ const AUTH_KEY = 'portfolio_admin_auth';
 
 // ══════════════════════════════════════════
 // AUTH
+
+// 1. Check l-auth mli kat-hla l-page
+async function checkAdminAccess() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    // Ila makanch ga3 dakhil awla l-email machi dialek
+    if (error || !user || user.email !== 'ayoubelwamy10121964@gmail.com') {
+        console.error("Access Denied!");
+        
+        // Kharjo nishan bach maybqa dakhil f session
+        await supabase.auth.signOut();
+        
+        // Sifto l-page dial login
+        window.location.href = 'index.html'; 
+        return;
+    }
+}
+
+// 2. Run l-check nishan
+checkAdminAccess();
+
+
 // ══════════════════════════════════════════
 async function verifyAuth() {
     if (sessionStorage.getItem(AUTH_KEY) === 'true') return true;
